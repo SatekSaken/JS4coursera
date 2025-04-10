@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивная фотогалерея</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #imageContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .gallery-img {
+      width: 200px;
+      margin: 10px;
+      border: 2px solid #ccc;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery-img:hover {
+      transform: scale(1.1);
+    }
+
+    #image {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      text-align: center;
+      line-height: 200px;
+      border: 2px dashed #ccc;
+    }
+
+    #image p {
+      font-size: 18px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добро пожаловать в мою фотогалерею</h1>
+
+  <div id="image">
+    <p>Наведите курсор на изображение ниже, чтобы отобразить его здесь</p>
+  </div>
+
+  <div id="imageContainer">
+    <img id="image1" class="gallery-img" src="image1.jpg" alt="Изображение 1: Пейзаж гор" tabindex="0">
+    <img id="image2" class="gallery-img" src="image2.jpg" alt="Изображение 2: Городской пейзаж" tabindex="0">
+    <img id="image3" class="gallery-img" src="image3.jpg" alt="Изображение 3: Пляж с пальмами" tabindex="0">
+    <img id="image4" class="gallery-img" src="image4.jpg" alt="Изображение 4: Закат на пляже" tabindex="0">
+    <img id="image5" class="gallery-img" src="image5.jpg" alt="Изображение 5: Горы и озеро" tabindex="0">
+    <img id="image6" class="gallery-img" src="image6.jpg" alt="Изображение 6: Лесная тропа" tabindex="0">
+  </div>
+
+  <script>
+    // Функция для обновления изображения
+    function upDate(imageId) {
+      const previewPic = document.getElementById(imageId);
+      const imageDiv = document.getElementById('image');
+      imageDiv.style.backgroundImage = `url('${previewPic.src}')`;
+      imageDiv.innerHTML = `<p>${previewPic.alt}</p>`;
+    }
+
+    // Функция для отмены изменений
+    function unDo() {
+      const imageDiv = document.getElementById('image');
+      imageDiv.style.backgroundImage = '';
+      imageDiv.innerHTML = `<p>Наведите курсор на изображение ниже, чтобы отобразить его здесь</p>`;
+    }
+
+    // Добавление событий на изображения для наведения мыши и ухода мыши
+    const images = document.querySelectorAll('.gallery-img');
+    images.forEach(img => {
+      img.addEventListener('mouseover', () => upDate(img.id));
+      img.addEventListener('mouseleave', unDo);
+    });
+
+    // Добавление событий для focus и blur
+    images.forEach(img => {
+      img.addEventListener('focus', () => {
+        console.log(`Фокус на изображении: ${img.alt}`);
+      });
+      img.addEventListener('blur', () => {
+        console.log(`Фокус снят с изображения: ${img.alt}`);
+      });
+    });
+
+    // Слушатель события onload
+    window.onload = function() {
+      console.log('Страница загружена');
+    };
+
+    // Добавление атрибута tabindex ко всем изображениям для доступности с клавиатуры
+    images.forEach((img, index) => {
+      img.setAttribute('tabindex', '0');
+    });
+  </script>
+</body>
+</html>
